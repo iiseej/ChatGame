@@ -17,80 +17,81 @@ var userList = [];
 const newUser = 'new user';
 
 io.on('connection', (socket) => {
-    console.log('client connecté');
-    io.emit('newUser', newUser);
+            console.log('client connecté');
+            io.emit('newUser', newUser);
 
-    const user = {
-        socket: socket,
-        nickname: 'Set your nickName !',
-        id: socket.id
-    };
+            const user = {
+                nickname: 'Set your nickname ! ',
+                id: socket.id
+            };
 
-
-
-    socket.on('username', (userName) => {
-
-        user.nickname = userName;
-
-
-        if (userList.length === 0) {
-            userList.push(user);
-            console.log(userList);
-            io.emit('userconnected', userName);
-        } else {
-            userList.forEach((userObject) => {
-
-                if (userObject.id == user.id) {
-                    return console.log('user exists');
-                }
-
+            if (userList.length === 0) {
                 userList.push(user);
                 console.log(userList);
-                io.emit('userconnected', userName);
+                io.emit('chatliste', userList);
+            } else {
+                userList.forEach((userObject) => {
+                        if (userObject.id == user.id) {
+                            return console.log('user exists');
+                        } else {
+
+                            //delete userObject.socket;
+                            userList.push(user);
+
+                            //console.log(userList);
+                            io.emit('chatliste', userList);
+                            console.log(userList);
+                            //io.emit('chatliste', userList);
+                        }
+                    });
+                }
+
+
+                socket.once('username', (userName) => {
+
+                    console.log(user.id);
+                    user.nickname = userName;
+                    io.emit('userconnected', userName);
+                    console.log(userList);
+                    io.emit('chatliste', userList);
+
+                });
+
+
+
+
+                socket.on('msg', (message) => {
+                    const usermsg = {
+                        id: uuid(),
+                        txt: message,
+                        userId: socket.id,
+                        date: easydate('h:m:s'),
+                        nick: user.nickname
+                    };
+                    io.emit('msg', usermsg);
+                });
+
+                socket.on('disconnect', () => {
+
+                    delete user.socket;
+
+                    io.emit('disconnected', user);
+
+                    //var newList = userList;
+
+                    userList = userList.filter((userObject) => {
+                        return userObject.id !== user.id;
+
+                    });
+                    io.emit('discolist', userList);
+                    console.log(userList);
+
+
+
+                    console.log(user.nickname + ' est déconnecté');
+
+                });
+
+
 
             });
-        }
-
-    });
-
-    socket.on('msg', (message) => {
-        const usermsg = {
-            id: uuid(),
-            txt: message,
-            userId: socket.id,
-            date: easydate('h:m:s'),
-            nick: user.nickname
-        };
-        io.emit('msg', usermsg);
-    });
-
-    socket.on('disconnect', () => {
-
-        delete user.socket;
-
-        io.emit('disconnected', user);
-
-        //var newList = userList;
-
-        userList = userList.filter((userObject) => {
-          return userObject.id !== user.id;
-        });
-
-        userList.forEach((userObject) =>{
-          delete userObject.socket;
-        });
-
-
-
-
-        console.log(userList);
-
-
-
-        console.log(user.nickname+' est déconnecté');
-
-    });
-
-
-
-});

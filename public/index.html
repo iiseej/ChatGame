@@ -23,7 +23,7 @@
     <main>
         <div class="gameArea">
             <ul id='mainChatbox'> </ul>
-            <div class="liste"> test </div>
+            <ul id="liste" class="liste"> test </ul>
         </div>
         <form id="chatBox-form">
             <input id="chatBox-input" class="chatBox-input" type="text" name="msg" value="" placeholder="your msg">
@@ -50,13 +50,41 @@
                 msgBox.value = '';
             });
 
-            socket.on('userconnected', function(username) {
+            socket.on('userconnected', function(userName) {
 
                 var chatbox = document.getElementById('mainChatbox');
                 var li = document.createElement('li');
-                li.innerText = 'new User changed his name to : '+username ;
+                li.innerText = 'new User changed his name to : '+ userName ;
                 chatbox.appendChild(li);
             })
+
+
+            socket.on('chatliste', function(_userliste){
+              var liste = document.getElementById('liste');
+              liste.innerHTML = "";
+              userList = [];
+              userList = _userliste;
+              userList.forEach( function(element){
+                var liliste = document.createElement('li');
+                liliste.innerText = element.nickname;
+                liste.appendChild(liliste);
+              });
+
+            })
+
+            socket.on('discolist', function(_userliste){
+              var liste = document.getElementById('liste');
+              liste.innerHTML = "";
+              userList = [];
+              userList = _userliste;
+              userList.forEach( function(element){
+                var liliste = document.createElement('li');
+                liliste.innerText = element.nickname;
+                liste.appendChild(liliste);
+              });
+
+            })
+
 
             socket.on('disconnected', function(user) {
 
