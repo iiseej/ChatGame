@@ -1,0 +1,104 @@
+body{
+  padding:0;
+  margin:0;
+  background-color: black;
+}
+
+header{
+  height:5vh;
+  display: flex;
+  justify-content: center;
+  color:white;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.welcome{
+  margin-bottom: 15px;
+}
+
+.nickname{
+  margin-right: 10px;
+}
+label{
+  color: white;
+}
+main{
+min-height: 95vh;
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items:center;
+
+
+}
+
+h1{
+  color:red;
+}
+
+.gameArea{
+  flex-wrap: wrap;
+  padding:0;
+  margin:0;
+  flex-grow: 1;
+  background-color: black;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+ul{
+  list-style: none;
+  padding-top: 10px;
+}
+
+li{
+  margin-bottom: 10px;
+}
+#mainChatbox{
+  padding:0;
+  margin:0;
+
+  width : 80%;
+  height:auto;
+  background-color: white;
+  color: black;
+
+}
+
+.liste{
+  width : 10%;
+  height:auto;
+  background-color: yellow;
+  color:black;
+  margin-bottom: 20px;
+
+}
+
+.userForm-input{
+background-color: red;
+color:black;
+}
+
+form{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.chatBox-input{
+  width:90%;
+  height: 50px;
+}
+
+.chatBox-btn{
+  width: 5%;
+margin: 0;
+  height: 50px;
+}

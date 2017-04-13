@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Chat Game</title>
+</head>
+
+<body>
+    <header>
+        <div id="welcome">
+            Welcome to Chat Game
+        </div>
+        <div id="nickname">
+            <form id='userForm'>
+                <label for="username">Nickname</label><input type="text" name="username" placeholder="username" id="userForm-input">
+            </form>
+        </div>
+
+    </header>
+
+    <main>
+        <div class="gameArea">
+            <ul id='mainChatbox'> </ul>
+            <div class="liste"> test </div>
+        </div>
+        <form id="chatBox-form">
+            <input id="chatBox-input" class="chatBox-input" type="text" name="msg" value="" placeholder="your msg">
+        </form>
+
+
+        <footer></footer>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io();
+            socket.on('connect', function() {
+                console.log('connecté !');
+
+            });
+
+            var form = document.getElementById('chatBox-form');
+
+            form.addEventListener('submit', function(e) {
+
+                e.preventDefault();
+                var msgBox = document.getElementById('chatBox-input');
+                socket.emit('msg', msgBox.value);
+                msgBox.value = '';
+            });
+
+            socket.on('userconnected', function(username) {
+
+                var chatbox = document.getElementById('mainChatbox');
+                var li = document.createElement('li');
+                li.innerText = 'new User changed his name to : '+username ;
+                chatbox.appendChild(li);
+            })
+
+            socket.on('disconnected', function(user) {
+
+                var chatbox = document.getElementById('mainChatbox');
+                var li = document.createElement('li');
+                li.innerText = user.nickname+ ' est déconnecté' ;
+                chatbox.appendChild(li);
+            })
+
+            socket.on('newUser', function(newUser) {
+
+                var chatbox = document.getElementById('mainChatbox');
+                var li = document.createElement('li');
+                li.innerText = newUser + ' vient de se connecter';
+                chatbox.appendChild(li);
+            })
+
+
+
+            socket.on('msg', function(usermsg) {
+
+                var chatbox = document.getElementById('mainChatbox');
+                var li = document.createElement('li');
+                li.innerText = usermsg.id +' -'+usermsg.nick + ' @ ' + usermsg.date + ' : ' + usermsg.txt;
+                chatbox.appendChild(li);
+            })
+
+            var user = document.getElementById('userForm');
+
+            user.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var userName = document.getElementById('userForm-input');
+                    userName = userName.value;
+                socket.emit('username', userName);
+            });
+        </script>
+</body>
+
+</html>
