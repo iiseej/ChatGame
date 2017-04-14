@@ -5,9 +5,10 @@ body{
 }
 
 header{
-  height:5vh;
+  height:10vh;
   display: flex;
   justify-content: center;
+  background-color: rgb(37,185,246);
   color:white;
   align-items: center;
   flex-direction: column;
@@ -15,23 +16,26 @@ header{
 }
 
 .welcome{
-  margin-bottom: 15px;
+  margin: 2%;
 }
 
 .nickname{
+  margin-top: 5px;
   margin-right: 10px;
 }
 label{
   color: white;
 }
 main{
-min-height: 95vh;
+min-height: 90vh;
   width: 100%;
   flex-grow: 1;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   align-items:center;
+  padding:0;
+  margin:0;
 
 
 }
@@ -48,7 +52,7 @@ h1{
   background-color: black;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-direction: row;
 }
 
@@ -61,22 +65,40 @@ li{
   margin-bottom: 10px;
 }
 #mainChatbox{
-  padding:0;
-  margin:0;
 
-  width : 80%;
+background-size: 100%;
+  background-image: url('forest.svg');
+  padding:0;
+  margin:1%;
+
+
+  width : 85%;
   height:auto;
   background-color: white;
   color: black;
 
 }
 
+#chatBox-form{
+  display: flex;
+  justify-content: center;
+}
+
+.chatdiv{
+
+  width:100%;
+}
 .liste{
+
+text-align: center;
+font-size: 14px;
+padding:0;
+margin: 1%;
   width : 10%;
   height:auto;
   background-color: yellow;
   color:black;
-  margin-bottom: 20px;
+
 
 }
 
@@ -93,8 +115,10 @@ form{
 }
 
 .chatBox-input{
-  width:90%;
+  background-color: rgb(96,189,0);
+  width:100%;
   height: 50px;
+  color:rgb(55, 34, 10);
 }
 
 .chatBox-btn{

@@ -14,7 +14,7 @@
         </div>
         <div id="nickname">
             <form id='userForm'>
-                <label for="username">Nickname</label><input type="text" name="username" placeholder="username" id="userForm-input">
+                <label for="username">Nickname : </label><input type="text" name="username" placeholder="username" id="userForm-input">
             </form>
         </div>
 
@@ -26,7 +26,10 @@
             <ul id="liste" class="liste"> test </ul>
         </div>
         <form id="chatBox-form">
+          <div class="chatdiv">
             <input id="chatBox-input" class="chatBox-input" type="text" name="msg" value="" placeholder="your msg">
+
+          </div>
         </form>
 
 
@@ -46,6 +49,13 @@
 
                 e.preventDefault();
                 var msgBox = document.getElementById('chatBox-input');
+
+                if (msgBox.value.indexOf("/nick") == 0 ) {
+
+                    msgBox.value = msgBox.value.substring(6);
+                    socket.emit('nick', msgBox.value);
+                }
+
                 socket.emit('msg', msgBox.value);
                 msgBox.value = '';
             });
@@ -54,7 +64,7 @@
 
                 var chatbox = document.getElementById('mainChatbox');
                 var li = document.createElement('li');
-                li.innerText = 'new User changed his name to : '+ userName ;
+                li.innerText = ' User changed his name to : '+ userName ;
                 chatbox.appendChild(li);
             })
 
@@ -108,7 +118,8 @@
 
                 var chatbox = document.getElementById('mainChatbox');
                 var li = document.createElement('li');
-                li.innerText = usermsg.id +' -'+usermsg.nick + ' @ ' + usermsg.date + ' : ' + usermsg.txt;
+                li.innerText = usermsg.icon+//usermsg.id +
+                ' '+usermsg.nick + ' @ ' + usermsg.date + ' : ' + usermsg.txt;
                 chatbox.appendChild(li);
             })
 

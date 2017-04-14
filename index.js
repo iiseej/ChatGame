@@ -4,6 +4,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const express = require('express');
 const easydate = require('easydate');
+const settings = require('./settings');
 
 
 server.listen(8080, function() {
@@ -22,7 +23,8 @@ io.on('connection', (socket) => {
 
             const user = {
                 nickname: 'Set your nickname ! ',
-                id: socket.id
+                id: socket.id,
+                icon : settings.defaultIcons[Math.floor(Math.random() * settings.defaultIcons.length)]
             };
 
             if (userList.length === 0) {
@@ -57,7 +59,11 @@ io.on('connection', (socket) => {
 
                 });
 
-
+                socket.on('nick', (nickname) => {
+                  user.nickname = nickname;
+                  io.emit('userconnected', nickname);
+                  io.emit('chatliste', userList);
+                });
 
 
                 socket.on('msg', (message) => {
@@ -66,7 +72,8 @@ io.on('connection', (socket) => {
                         txt: message,
                         userId: socket.id,
                         date: easydate('h:m:s'),
-                        nick: user.nickname
+                        nick: user.nickname,
+                        icon : user.icon
                     };
                     io.emit('msg', usermsg);
                 });
